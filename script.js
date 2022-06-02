@@ -18,6 +18,10 @@ function computerPlay() {
 
 }
 
+
+let computerScore = 0;
+let playerScore = 0;
+
 function playRound(playerSelection, computerSelection) {
 
     playerSelection = playerSelection.toLowerCase()
@@ -27,22 +31,29 @@ function playRound(playerSelection, computerSelection) {
         return "It's a draw!"
     }else if (playerSelection === "rock") {
         if (computerSelection === "paper") {
+            computerScore += 1;
             return "You Lose! Paper beats Rock"
         }else if (computerSelection === "scissors") {
+            playerScore += 1;
             return "You Win! Rock beats Scissors"
         }
 
     }else if (playerSelection === "paper"){
         if (computerSelection === "rock"){
+            playerScore += 1;
             return "You win! Paper beats Rock"
+            
         }else if (computerSelection === "scissors"){
+            computerScore += 1;
             return "You lose! Scissors beats Paper"
         }
         
     }else if(playerSelection === "scissors"){
         if (computerSelection === "paper"){
+            playerScore += 1;
             return "You Win! Scissors beats Paper"
         }else if (computerSelection === "rock"){
+            computerScore += 1;
             return "You Lose! Rock beats Scissors"
         }
     
@@ -50,21 +61,38 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
+
+
+
+
+
+
 function game() {
     
-    for (let i = 0; i < 5; i++){
-        let playerInput = prompt("What do you want to play: ");
+    const buttons = document.querySelectorAll('button');
+    let gameOutcome = document.getElementById("gameOutcome");
+    let playScore = document.getElementById("playerScore");
+    let computScore = document.getElementById("computerScore");
+    let winner = document.getElementById("winner");
 
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
 
-        console.log(playRound(playerInput, computerPlay()));
-    }
+            let playerInput = button.id;
+            gameOutcome.textContent = playRound(playerInput, computerPlay());
+            playScore.textContent = playerScore;
+            computScore.textContent = computerScore;
 
+            if (playerScore >= 5) {
+                console.log("Player wins");
+                winner.textContent = "Player wins";
+            } else if (computerScore >= 5) {
+                console.log("Computer wins");
+                winner.textContent = "Computer wins";
+            }
+
+        });
+    });
 }
 
 game()
-// const playerSelection = "rock";
-// const computerSelection = computerPlay();
-// console.log(playRound(playerSelection, computerSelection));
-
-
-//console.log(computerPlay())
